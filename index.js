@@ -81,16 +81,16 @@ function AudioIO(options) {
       cb();
   }
 
-  ioStream.abort = cb => {
-    audioIOAdon.quit('ABORT', () => {
-      if (typeof cb === 'function')
-        cb();
-    });
+  ioStream.abort = async cb => {
+    await audioIOAdon.quit('ABORT');
+    if (typeof cb === 'function')
+      cb();
   }
 
   ioStream.on('close', async () => {
     ioStream.emit('closed');
   });
+
   ioStream.on('finish', async () => {
     await ioStream.quit()
     ioStream.emit('finished');
